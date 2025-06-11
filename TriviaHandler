@@ -1,3 +1,14 @@
+public void GetTrivias()
+{
+	this.dba.opencon("trivia_mpdb");
+	this.dba.sqlQuery = "SELECT count(T_Desc) FROM Trvia";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0) && this.dba.reader.Read())
+	{
+		this.n_trivia = this.dba.reader.GetInt32(0);
+		this.dba.closecon();
+	}
+}
 public void LoadTrivia()
 {
 	if (GameObject.Find("System") != null)
