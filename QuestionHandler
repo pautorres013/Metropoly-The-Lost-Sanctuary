@@ -1,0 +1,155 @@
+public void QuestionData()
+{
+	this.dba.opencon("questions_mpdb");
+	this.dba.sqlQuery = "SELECT * FROM Question WHERE Topic_Desc = '" + this.topic + "' ORDER BY RANDOM () LIMIT 1";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		if (this.dba.reader.Read())
+		{
+			this.question.text = this.dba.reader.GetString(2);
+			this.a.text = this.dba.reader.GetString(3);
+			this.b.text = this.dba.reader.GetString(4);
+			this.c.text = this.dba.reader.GetString(5);
+			this.RightAns = this.dba.reader.GetString(6);
+			this.dba.closecon();
+		}
+	}
+	else
+	{
+		MonoBehaviour.print("data not connected");
+	}
+}
+public void showQuestion()
+{
+	this.shuffle();
+	if (this.queswithimg)
+	{
+		this.QuestionGUI.SetActive(true);
+	}
+	else
+	{
+		this.questionWOimg.SetActive(true);
+	}
+}
+public void shuffle()
+{
+	if (this.queswithimg)
+	{
+		this.answer.text = string.Empty;
+		this.rand = UnityEngine.Random.Range(this.min, this.max);
+		this.questionimg.sprite = this.questions[this.rand];
+		this.RightAns = this.answers[this.rand];
+	}
+	else
+	{
+		this.QuestionData();
+	}
+}
+
+
+//checker
+public void Checkanswer(string ans)
+{
+	if (ans == this.RightAns)
+	{
+		this.audioplayer.clip = this.Correct;
+		this.audioplayer.Play();
+		this.questionstatus = "Correct!";
+		if (this.s2)
+		{
+			this.prof.s2rightansd++;
+		}
+		else if (this.s4)
+		{
+			this.questionstatus = "Correct!";
+			this.prof.s4rightansd++;
+		}
+		this.prof.gainscore = this.prof.gainscore + 20;
+	}
+	else
+	{
+		this.audioplayer.clip = this.Wrong;
+		this.audioplayer.Play();
+		this.questionstatus = "Wrong!";
+		if (this.s2)
+		{
+			this.prof.s2wrongansd++;
+			this.prof.gainscore = this.prof.gainscore - 5;
+		}
+		else if (this.s4)
+		{
+			this.questionstatus = "Wrong!";
+			this.prof.s4wrongansd++;
+			this.prof.gainscore = this.prof.gainscore - 10;
+		}
+		this.minushp();
+	}
+	this.prompttxt.text = this.questionstatus;
+	this.promptGUI.SetActive(true);
+	this.answer.text = string.Empty;
+	this.questionWOimg.SetActive(false);
+	if (this.location == "Megara" && this.prof.s4rightansd + this.prof.s4wrongansd < 3)
+	{
+		this.shuffle();
+	}
+}
+
+public void Checkans()
+{
+	if (this.answer.text.Equals(this.RightAns, StringComparison.CurrentCultureIgnoreCase))
+	{
+		this.audioplayer.clip = this.Correct;
+		this.audioplayer.Play();
+		if (this.s1)
+		{
+			this.questionstatus = "Correct!";
+			this.prof.s1rightansd++;
+		}
+		else if (this.s2)
+		{
+			this.questionstatus = "Correct!";
+			this.prof.s2rightansd++;
+		}
+		else if (this.s3)
+		{
+			this.questionstatus = "Correct! You may proceed.";
+			this.prof.s3rightansd++;
+		}
+		this.prof.gainscore = this.prof.gainscore + this.score;
+	}
+	else if (this.answer.text == string.Empty)
+	{
+		this.questionstatus = "Input an answer";
+	}
+	else
+	{
+		this.audioplayer.clip = this.Wrong;
+		this.audioplayer.Play();
+		if (this.s1)
+		{
+			this.questionstatus = "Wrong!";
+			this.prof.s1wrongansd++;
+			this.prof.hp = this.prof.hp - 10f;
+			this.prof.gainscore = this.prof.gainscore - 10;
+		}
+		else if (this.s2)
+		{
+			this.questionstatus = "Wrong!";
+			this.prof.s2wrongansd++;
+			this.prof.hp = this.prof.hp - 20f;
+			this.prof.gainscore = this.prof.gainscore - 15;
+		}
+		else if (this.s3)
+		{
+			this.questionstatus = "Wrong! Go Back!";
+			this.prof.s3wrongansd++;
+			this.prof.hp = this.prof.hp - 30f;
+			this.prof.gainscore = this.prof.gainscore - 15;
+		}
+	}
+	this.ansField.text = string.Empty;
+	this.promptGUI.SetActive(true);
+	this.prompttxt.text = this.questionstatus;
+	this.QuestionGUI.SetActive(false);
+}
