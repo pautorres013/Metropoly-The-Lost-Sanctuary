@@ -1,0 +1,140 @@
+public void Overall(string name)
+{
+	this.aud.btnAud();
+	this.Label.text = name;
+	this.cleanArray();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "Select Plyr_Name, Stage1Score + Stage2Score + Stage3Score + Stage4Score AS total from Board order by total desc Limit 10";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.Users[this.n].text = this.dba.reader.GetString(0);
+			double num;
+			double.TryParse(this.dba.reader.GetValue(1).ToString(), out num);
+			this.Score[this.n].text = num + string.Empty;
+			this.n++;
+		}
+	}
+	else
+	{
+		this.Users[this.n].text = "No Available User";
+		this.Score[this.n].text = "0";
+	}
+	this.CheckArray();
+	this.dba.closecon();
+	this.n = 0;
+}
+public void S1Rank(string name)
+{
+	this.aud.btnAud();
+	this.Label.text = name;
+	this.cleanArray();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "Select Plyr_Name, Stage1Score AS total from Board order by total desc Limit 10";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.Users[this.n].text = this.dba.reader.GetString(0);
+			double num;
+			double.TryParse(this.dba.reader.GetValue(1).ToString(), out num);
+			this.Score[this.n].text = num + string.Empty;
+			this.n++;
+		}
+	}
+	else
+	{
+		this.Users[this.n].text = "No Available User";
+		this.Score[this.n].text = "0";
+	}
+	this.CheckArray();
+	this.dba.closecon();
+	this.n = 0;
+}
+public void S2Rank(string name)
+{
+	this.aud.btnAud();
+	this.Label.text = name;
+	this.cleanArray();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "Select Plyr_Name, Stage2Score AS total from Board order by total desc Limit 10";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.Users[this.n].text = this.dba.reader.GetString(0);
+			double num;
+			double.TryParse(this.dba.reader.GetValue(1).ToString(), out num);
+			this.Score[this.n].text = num + string.Empty;
+			this.n++;
+		}
+	}
+	else
+	{
+		this.Users[this.n].text = "No Available User";
+		this.Score[this.n].text = "0";
+	}
+	this.CheckArray();
+	this.dba.closecon();
+	this.n = 0;
+}
+public void S3Rank(string name)
+{
+	this.aud.btnAud();
+	this.Label.text = name;
+	this.cleanArray();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "Select Plyr_Name, Stage3Score AS total from Board order by total desc Limit 10";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.Users[this.n].text = this.dba.reader.GetString(0);
+			double num;
+			double.TryParse(this.dba.reader.GetValue(1).ToString(), out num);
+			this.Score[this.n].text = num + string.Empty;
+			this.n++;
+		}
+	}
+	else
+	{
+		this.Users[this.n].text = "No Available User";
+		this.Score[this.n].text = "0";
+	}
+	this.CheckArray();
+	this.dba.closecon();
+	this.n = 0;
+}
+public void S4Rank(string name)
+{
+	this.aud.btnAud();
+	this.Label.text = name;
+	this.cleanArray();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "Select Plyr_Name, Stage4Score AS total from Board order by total desc Limit 10";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.Users[this.n].text = this.dba.reader.GetString(0);
+			double num;
+			double.TryParse(this.dba.reader.GetValue(1).ToString(), out num);
+			this.Score[this.n].text = num + string.Empty;
+			this.n++;
+		}
+	}
+	else
+	{
+		this.Users[this.n].text = "No Available User";
+		this.Score[this.n].text = "0";
+	}
+	this.CheckArray();
+	this.dba.closecon();
+	this.n = 0;
+}
