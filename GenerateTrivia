@@ -1,0 +1,39 @@
+public void HideTrivia()
+{
+	this.Trvia.SetActive(false);
+	this.Trvia_img.SetActive(false);
+	this.prof.tomestatus = "new";
+}
+public void LoadTrivia()
+{
+	if (GameObject.Find("System") != null)
+	{
+		this.Database = GameObject.Find("System").GetComponent<DBAccess>();
+		this.Database.opencon("trivia_mpdb");
+		this.Database.sqlQuery = "SELECT count(T_Desc) FROM Trvia";
+		this.Database.SelectQuery();
+		if (!this.Database.reader.IsDBNull(0) && this.Database.reader.Read())
+		{
+			this.Num_Trvia = this.Database.reader.GetInt32(0);
+			this.Database.closecon();
+		}
+		this.random_num = UnityEngine.Random.Range(1, this.Num_Trvia);
+		this.Database.opencon("trivia_mpdb");
+		this.Database.sqlQuery = "SELECT T_Desc FROM Trvia where T_ID = '" + this.random_num + "'";
+		this.Database.SelectQuery();
+		if (!this.Database.reader.IsDBNull(0) && this.Database.reader.Read())
+		{
+			this.Trivia = this.Database.reader.GetString(0);
+			this.trvia_txt.text = this.Trivia;
+			this.Database.closecon();
+		}
+	}
+}
+public void ShowTrivia()
+{
+	this.Trvia.SetActive(true);
+}
+private void Start()
+{
+	this.prof = GameObject.Find("System").GetComponent<Profile>();
+}
