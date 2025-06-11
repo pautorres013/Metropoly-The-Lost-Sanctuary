@@ -1,0 +1,30 @@
+public void LoadTrivia()
+{
+	if (GameObject.Find("System") != null)
+	{
+		this.Database = GameObject.Find("System").GetComponent<DBAccess>();
+		this.Database.opencon("trivia_mpdb");
+		this.Database.sqlQuery = "SELECT count(T_Desc) FROM Trvia";
+		this.Database.SelectQuery();
+		if (!this.Database.reader.IsDBNull(0) && this.Database.reader.Read())
+		{
+			this.Num_Trvia = this.Database.reader.GetInt32(0);
+			this.Database.closecon();
+		}
+		this.Database.opencon("trivia_mpdb");
+		this.Database.sqlQuery = "SELECT T_Desc FROM Trvia where T_ID = '" + this.random_num + "'";
+		this.Database.SelectQuery();
+		if (!this.Database.reader.IsDBNull(0) && this.Database.reader.Read())
+		{
+			this.Trivia = this.Database.reader.GetString(0);
+			this.Database.closecon();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < this.backupTrivia.Length; i++)
+		{
+			this.Trivia = this.backupTrivia[this.random_num];
+		}
+	}
+}
