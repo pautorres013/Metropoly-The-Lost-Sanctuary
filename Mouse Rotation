@@ -1,0 +1,69 @@
+private void adjustDistance()
+{
+	if (this.distance < 16f && this.distance > 4f)
+	{
+		this.F_canAdjust = true;
+		this.B_canAdjust = true;
+	}
+	if (this.distance >= 15f)
+	{
+		this.distance = 14f;
+		this.F_canAdjust = false;
+	}
+	if (this.distance <= 4f)
+	{
+		this.distance = 5f;
+		this.B_canAdjust = false;
+	}
+	else if (Input.GetAxis("Mouse ScrollWheel") > 0f && this.F_canAdjust)
+	{
+		this.distance += 1f;
+	}
+	else if (Input.GetAxis("Mouse ScrollWheel") < 0f && this.B_canAdjust)
+	{
+		this.distance -= 1f;
+	}
+}
+private static float ClampAngle(float angle, float min, float max)
+{
+	if (angle < -360f)
+	{
+		angle += 360f;
+	}
+	if (angle > 360f)
+	{
+		angle -= 360f;
+	}
+	return Mathf.Clamp(angle, min, max);
+}
+private void LateUpdate()
+{
+	Vector3 point = new Vector3(0f, 1.8f, -this.distance);
+	if (this.target)
+	{
+		if (Input.GetMouseButton(1))
+		{
+			this.x += Input.GetAxis("Mouse X") * this.xSpeed * 0.02f;
+			this.y -= Input.GetAxis("Mouse Y") * this.ySpeed * 0.02f;
+			this.y = MouseRot.ClampAngle(this.y, this.yMinLimit, this.yMaxLimit);
+		}
+		Quaternion rotation = Quaternion.Euler(this.y, this.x, 0f);
+		Vector3 position = rotation * point + this.target.position;
+		base.transform.rotation = rotation;
+		base.transform.position = position;
+	}
+}
+private void Start()
+{
+	Vector3 eulerAngles = base.transform.eulerAngles;
+	this.x = eulerAngles.y;
+	this.y = eulerAngles.x;
+}
+private void Update()
+{
+	if (GameObject.FindGameObjectWithTag("Player") != null)
+	{
+		this.target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+	}
+	this.adjustDistance();
+}
