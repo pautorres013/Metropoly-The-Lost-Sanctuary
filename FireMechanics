@@ -1,0 +1,193 @@
+private void Dmg()
+{
+	if (GameObject.Find("System") != null)
+	{
+		this.prof = GameObject.Find("System").GetComponent<Profile>();
+		if (this.prof.hp > 0f)
+		{
+			this.prof.hp = this.prof.hp - 10f;
+		}
+		else if (this.prof.hp < 0f)
+		{
+			this.prof.hp = 0f;
+		}
+	}
+}
+private void OnTriggerEnter(Collider c)
+{
+	if (c.gameObject.name == "Player")
+	{
+		this.entered = true;
+	}
+}
+private void OnTriggerExit(Collider c)
+{
+	if (c.gameObject.name == "Player")
+	{
+		this.entered = false;
+		this.warning.SetActive(false);
+	}
+}
+private void OnTriggerStay(Collider c)
+{
+	if (this.entered)
+	{
+		this.warning.SetActive(true);
+		this.timer += Time.deltaTime;
+		if (this.timer >= this.timermax)
+		{
+			this.timer = 0f;
+			this.Dmg();
+		}
+	}
+}
+private void FixedUpdate()
+{
+	this.interval();
+	this.startingtime = this.time;
+	if (this.start)
+	{
+		this.time += Time.deltaTime;
+		this.t = (int)this.time;
+	}
+	if (this.t == 24)
+	{
+		this.time = this.startingtime;
+		this.time = 0f;
+	}
+}
+private void interval()
+{
+	if (this.fivefires)
+	{
+		switch (this.t)
+		{
+		case 0:
+			this.fire[0].SetActive(true);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(true);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(true);
+			break;
+		case 2:
+			this.light[0].SetActive(false);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(false);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(true);
+			break;
+		case 3:
+			this.fire[0].SetActive(false);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(false);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(true);
+			break;
+		case 5:
+			this.light[0].SetActive(false);
+			this.light[1].SetActive(true);
+			this.light[2].SetActive(false);
+			this.light[3].SetActive(true);
+			this.light[4].SetActive(false);
+			break;
+		case 6:
+			this.fire[0].SetActive(false);
+			this.fire[1].SetActive(true);
+			this.fire[2].SetActive(false);
+			this.fire[3].SetActive(true);
+			this.fire[4].SetActive(false);
+			break;
+		case 7:
+			this.light[0].SetActive(true);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(false);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(false);
+			break;
+		case 9:
+			this.fire[0].SetActive(true);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(false);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(false);
+			break;
+		case 10:
+			this.light[0].SetActive(true);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(true);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(true);
+			break;
+		case 11:
+			this.fire[0].SetActive(true);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(true);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(true);
+			break;
+		case 13:
+			this.light[0].SetActive(false);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(true);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(false);
+			break;
+		case 14:
+			this.fire[0].SetActive(false);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(true);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(false);
+			break;
+		case 15:
+			this.light[0].SetActive(false);
+			this.light[1].SetActive(true);
+			this.light[2].SetActive(false);
+			this.light[3].SetActive(true);
+			this.light[4].SetActive(false);
+			break;
+		case 17:
+			this.fire[0].SetActive(false);
+			this.fire[1].SetActive(true);
+			this.fire[2].SetActive(false);
+			this.fire[3].SetActive(true);
+			this.fire[4].SetActive(false);
+			break;
+		case 18:
+			this.light[0].SetActive(false);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(false);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(true);
+			break;
+		case 19:
+			this.fire[0].SetActive(false);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(false);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(true);
+			break;
+		case 20:
+			this.light[0].SetActive(true);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(true);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(false);
+			break;
+		case 22:
+			this.fire[0].SetActive(true);
+			this.fire[1].SetActive(false);
+			this.fire[2].SetActive(true);
+			this.fire[3].SetActive(false);
+			this.fire[4].SetActive(false);
+			break;
+		case 23:
+			this.light[0].SetActive(true);
+			this.light[1].SetActive(false);
+			this.light[2].SetActive(true);
+			this.light[3].SetActive(false);
+			this.light[4].SetActive(true);
+			break;
+		}
+	}
+}
