@@ -43,3 +43,47 @@ public void SaveBtn()
 	}
 	this.dba.closecon();
 }
+public void UpdateData()
+{
+	if (this.questN > 1)
+	{
+		this.dba.opencon("plyr_mpdb");
+		this.dba.sqlQuery = "UPDATE Plyr_Items SET Book = '0', Key = '0', Scroll = '0', Pzlepcs = '0' WHERE PlyrItems_ID = '" + this.UserID + "'";
+		this.dba.InsertQuery();
+		this.dba.sqlQuery = "UPDATE Plyr_Status SET PlyrSt_Score = '0', PlyrSt_QstN = '1', PlyrSt_Loc = 'MegaraSchool' , PlyrSt_SubQstN = '0' WHERE PlyrSt_ID = '" + this.UserID + "'";
+		this.dba.InsertQuery();
+		this.dba.sqlQuery = "UPDATE Plyr_Tome SET Similarity_Collected = '0,0,0,0,0', Polygons_Collected = '0,0,0,0,0', Circles_Collected = '0,0,0,0', PlaneCord_Collected = '0,0,0', Tri_Collected = '0,0,0,0,0,0,0,0' , Quad_Collected = '0,0,0,0' WHERE Plyr_ID = '" + this.UserID + "'";
+		this.dba.InsertQuery();
+		this.dba.sqlQuery = "UPDATE Plyr_StageProgress SET Stage1CorrAns = 0, Stage1WronAns = 0, Stage2CorrAns = 0, Stage2WronAns = 0, Stage3CorrAns = 0, Stage3WronAns = 0, Stage4CorrAns = 0, Stage4WronAns = 0, Stage4StageScore = 0, Remhp1 = 0, Remhp2 = 0, Remhp3 = 0, Remhp4 = 0, s1tries = 0, s2tries = 0, s3tries = 0, s4tries = 0 WHERE Plyr_ID = '" + this.UserID + "'";
+		this.dba.InsertQuery();
+		this.dba.closecon();
+	}
+}
+public void quest()
+{
+	this.dba.opencon("quest_mpdb");
+	this.dba.sqlQuery = "Select * from QuestBank where Q_ID = '" + this.questN + "'";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0) && this.questN < 9)
+	{
+		if (this.dba.reader.Read())
+		{
+			this.q_title = this.dba.reader.GetString(1);
+			this.q_desc = this.dba.reader.GetString(2);
+			this.q_reqdesc = this.dba.reader.GetString(3);
+			this.q_req = this.dba.reader.GetInt32(4);
+			this.q_rwrd = this.dba.reader.GetInt32(5);
+			this.q_rwddesc = this.dba.reader.GetString(6);
+			this.dba.closecon();
+		}
+	}
+	else
+	{
+		this.q_title = "Game Clear!";
+		this.q_desc = "Game Clear!";
+		this.q_reqdesc = "Game Clear!";
+		this.q_req = 0;
+		this.q_rwrd = 0;
+		this.q_rwddesc = "Game Clear!";
+	}
+}
