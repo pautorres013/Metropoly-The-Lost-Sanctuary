@@ -1,0 +1,320 @@
+private void Overall()
+{
+	float num = Mathf.Round((float)(this.s1scores + this.s2scores + this.s3scores + this.s4scores));
+	this.data.prof.score = (int)num;
+	this.overallquestionbased = this.st1rate * 0.25f + this.st2rate * 0.25f + this.st3rate * 0.25f + this.st4rate * 0.25f;
+	this.overallquestionrate.text = Mathf.Round(this.overallquestionbased) + "%";
+	this.rate();
+	float num2 = (float)this.tempn * 0.25f;
+	this.gameprog.text = Mathf.Round(num2 * 100f) + "%";
+	this.totalright.text = string.Empty + (this.data.prof.s1rightansd + this.data.prof.s2rightansd + this.data.prof.s3rightansd + this.data.prof.s4rightansd);
+	this.totalwrong.text = string.Empty + (this.data.prof.s1wrongansd + this.data.prof.s2wrongansd + this.data.prof.s3wrongansd + this.data.prof.s4wrongansd);
+	this.totalscore.text = string.Empty + this.data.prof.score;
+}
+private void Qrate()
+{
+	bool flag = this.data.prof.questN >= 2;
+	if (flag)
+	{
+		if ((this.data.prof.key >= 2 && this.data.prof.subQuestID >= 1) || this.data.prof.questN >= 6)
+		{
+			this.s1_ex.SetActive(true);
+			this.S1_Un.SetActive(false);
+			this.s1rightans.text = this.data.prof.s1rightansd.ToString();
+			this.s1wrongans.text = this.data.prof.s1wrongansd.ToString();
+			float num = (float)(this.data.prof.s1rightansd - this.data.prof.s1wrongansd);
+			this.st1rate = Mathf.Round(num / (float)this.data.prof.s1rightansd * 100f);
+			this.s1rate.text = this.st1rate + "%";
+			this.s1scores = this.data.prof.s1rightansd * 15 - this.data.prof.s1wrongansd * 10 + (int)this.pluspts1;
+			this.s1add.text = "+ " + this.data.prof.s1rightansd * 15;
+			this.s1deduc.text = "- " + this.data.prof.s1wrongansd * 10;
+			this.s1score.text = string.Empty + this.s1scores;
+			this.rate1 = (float)this.s1scores / 65f;
+			if (this.s1scores < 10)
+			{
+				this.s1eval.text = "Poor";
+			}
+			else if (this.s1scores <= 20)
+			{
+				this.s1eval.text = "Good";
+			}
+			else if (this.s1scores <= 30)
+			{
+				this.s1eval.text = "Very Good";
+			}
+			else if (this.s1scores < 65)
+			{
+				this.s1eval.text = "Excellent";
+			}
+			else if (this.s1scores >= 65)
+			{
+				this.st1rate = 100f;
+				this.rate1 = 1f;
+				this.s1eval.text = "Perfect Score";
+			}
+			this.tempn = 1;
+			this.s1scrate.text = Mathf.Round(this.rate1 * 100f) + "%";
+		}
+		if ((this.data.prof.key >= 3 && this.data.prof.subQuestID >= 2) || this.data.prof.questN >= 6)
+		{
+			this.s2_ex.SetActive(true);
+			this.S2_Un.SetActive(false);
+			this.s2rightans.text = this.data.prof.s2rightansd.ToString();
+			this.s2wrongans.text = this.data.prof.s2wrongansd.ToString();
+			float num2 = (float)(this.data.prof.s2rightansd - this.data.prof.s2wrongansd);
+			this.st2rate = Mathf.Round(num2 / (float)this.data.prof.s2rightansd * 100f);
+			this.s2rate.text = this.st2rate + "%";
+			this.s2scores = this.data.prof.s2rightansd * 20 - this.data.prof.s2wrongansd * 10 + (int)this.pluspts2;
+			this.s2add.text = "+ " + this.data.prof.s2rightansd * 20;
+			this.s2deduc.text = "- " + this.data.prof.s2wrongansd * 10;
+			this.s2score.text = string.Empty + this.s2scores;
+			this.rate2 = (float)this.s2scores / 160f;
+			if (this.s2scores < 50)
+			{
+				this.s2eval.text = "Poor";
+			}
+			else if (this.s2scores <= 80)
+			{
+				this.s2eval.text = "Good";
+			}
+			else if (this.s2scores <= 100)
+			{
+				this.s2eval.text = "Very Good";
+			}
+			else if (this.s2scores < 160)
+			{
+				this.s2eval.text = "Excellent";
+			}
+			else if (this.s2scores >= 160 || this.rate2 >= 100f)
+			{
+				this.st2rate = 100f;
+				this.rate2 = 1f;
+				this.s2eval.text = "Perfect Score";
+			}
+			this.tempn = 2;
+			this.s2scrate.text = Mathf.Round(this.rate2 * 100f) + "%";
+		}
+		if ((this.data.prof.key >= 4 && this.data.prof.subQuestID >= 3) || this.data.prof.questN >= 6)
+		{
+			this.s3_ex.SetActive(true);
+			this.S3_Un.SetActive(false);
+			this.s3rightans.text = this.data.prof.s3rightansd.ToString();
+			this.s3wrongans.text = this.data.prof.s3wrongansd.ToString();
+			float num3 = (float)(this.data.prof.s3rightansd - this.data.prof.s3wrongansd);
+			this.st3rate = Mathf.Round(num3 / (float)this.data.prof.s3rightansd * 100f);
+			this.s3rate.text = this.st3rate + "%";
+			this.s3add.text = "+ " + this.data.prof.s3rightansd * 25;
+			this.s3deduc.text = "- " + this.data.prof.s3wrongansd * 10;
+			this.s3score.text = string.Empty + this.s3scores;
+			this.rate3 = (float)this.s3scores / 120f;
+			this.s3scores = this.data.prof.s3rightansd * 25 - this.data.prof.s3wrongansd * 10 + (int)this.pluspts3;
+			if (this.s3scores < 48)
+			{
+				this.s3eval.text = "Poor";
+			}
+			else if (this.s3scores <= 72)
+			{
+				this.s3eval.text = "Good";
+			}
+			else if (this.s3scores <= 96)
+			{
+				this.s3eval.text = "Very Good";
+			}
+			else if (this.s3scores < 120)
+			{
+				this.s3eval.text = "Excellent";
+			}
+			else if (this.s3scores >= 120)
+			{
+				this.st3rate = 100f;
+				this.rate3 = 1f;
+				this.s3eval.text = "Perfect Score";
+			}
+			this.tempn = 3;
+			this.s3scrate.text = Mathf.Round(this.rate3 * 100f) + "%";
+		}
+		if (this.data.prof.key >= 6)
+		{
+			this.s4_ex.SetActive(true);
+			this.S4_Un.SetActive(false);
+		}
+		this.remaininghp();
+		if ((this.data.prof.questN >= 6 && this.data.prof.subQuestID >= 4) || this.data.prof.questN == 9)
+		{
+			this.s4_ex.SetActive(true);
+			this.S4_Un.SetActive(false);
+			this.s4rightans.text = this.data.prof.s4rightansd.ToString();
+			this.s4wrongans.text = this.data.prof.s4wrongansd.ToString();
+			float num4 = (float)(this.data.prof.s4rightansd - this.data.prof.s4wrongansd);
+			this.st4rate = Mathf.Round(num4 / (float)this.data.prof.s4rightansd * 100f);
+			this.s4rate.text = this.st3rate + "%";
+			this.s4add.text = "+ " + this.data.prof.s4rightansd * 30;
+			this.s4deduc.text = "- " + this.data.prof.s4wrongansd * 10;
+			this.s4score.text = string.Empty + this.s4scores;
+			this.rate4 = (float)this.s4scores / 210f;
+			this.s4scores = this.data.prof.s4rightansd * 30 - this.data.prof.s4wrongansd * 10 + (int)this.pluspts4 + this.data.prof.stage4score;
+			if (this.s4scores < 130)
+			{
+				this.s4eval.text = "Poor";
+			}
+			else if (this.s4scores <= 160)
+			{
+				this.s4eval.text = "Good";
+			}
+			else if (this.s4scores <= 180)
+			{
+				this.s4eval.text = "Very Good";
+			}
+			else if (this.s4scores < 230)
+			{
+				this.s4eval.text = "Excellent";
+			}
+			else if (this.s4scores >= 230)
+			{
+				this.st4rate = 100f;
+				this.rate4 = 1f;
+				this.s4eval.text = "Perfect Score";
+			}
+			this.tempn = 4;
+			this.s4scrate.text = Mathf.Round(this.rate4 * 100f) + "%";
+		}
+		if (this.data.prof.questN >= 6)
+		{
+			this.s4_ex.SetActive(true);
+			this.S4_Un.SetActive(false);
+		}
+		this.remaininghp();
+	}
+}
+private void rate()
+{
+	int num = (int)Mathf.Round(this.overallquestionbased);
+	string text = string.Empty;
+	this.temprate = Mathf.Round((float)this.data.prof.score / 400f * 100f);
+	bool flag = this.temprate > 0f;
+	if (flag)
+	{
+		if (flag)
+		{
+			if (this.temprate < 50f)
+			{
+				this.eval_text = "Poor";
+			}
+			else if (this.temprate <= 65f)
+			{
+				this.eval_text = "Fair";
+			}
+			else if (this.temprate <= 75f)
+			{
+				this.eval_text = "Satisfactory";
+			}
+			else if (this.temprate <= 85f)
+			{
+				this.eval_text = "Good";
+			}
+			else if (this.temprate <= 95f)
+			{
+				this.eval_text = "Very Good";
+			}
+			else if (this.temprate < 100f)
+			{
+				this.eval_text = "Excellent";
+			}
+			else if (this.temprate >= 100f)
+			{
+				this.temprate = 100f;
+				this.eval_text = "Perfect Score!";
+			}
+			if (num < 50)
+			{
+				text = "Poor";
+			}
+			else if (num <= 65)
+			{
+				text = "Fair";
+			}
+			else if (num <= 75)
+			{
+				text = "Satisfactory";
+			}
+			else if (num <= 85)
+			{
+				text = "Good";
+			}
+			else if (num <= 95)
+			{
+				text = "Very Good";
+			}
+			else if (num < 100)
+			{
+				text = "Excellent";
+			}
+			else if (num >= 100)
+			{
+				text = "Perfect Score!";
+			}
+		}
+	}
+	else
+	{
+		this.eval_text = "None";
+		text = "None";
+	}
+	this.rating.text = this.temprate + "%";
+	this.eval.text = this.eval_text;
+	this.overallquestioneval.text = text;
+}
+private void remaininghp()
+{
+	if (this.tempn < 4)
+	{
+		if (this.data.prof.remaininghp1 >= 50 || this.data.prof.remaininghp3 >= 50)
+		{
+			this.pluspts1 = (float)this.remhps1 * 0.2f;
+		}
+		else
+		{
+			this.pluspts1 = 0f;
+		}
+		this.remhps1 = this.data.prof.remaininghp1;
+		if (this.data.prof.remaininghp2 >= 50)
+		{
+			this.pluspts2 = (float)this.remhps2 * 0.2f;
+		}
+		else
+		{
+			this.pluspts2 = 0f;
+		}
+		this.remhps2 = this.data.prof.remaininghp2;
+		if (this.data.prof.remaininghp3 >= 50)
+		{
+			this.pluspts3 = (float)this.remhps3 * 0.2f;
+		}
+		else
+		{
+			this.pluspts3 = 0f;
+		}
+		this.remhps3 = this.data.prof.remaininghp3;
+		if (this.data.prof.remaininghp4 >= 50)
+		{
+			this.pluspts4 = (float)this.remhps4 * 0.2f;
+		}
+		else
+		{
+			this.pluspts4 = 0f;
+		}
+		this.remhps4 = this.data.prof.remaininghp4;
+	}
+	this.remhp1.text = this.remhps1 + string.Empty;
+	this.remhp2.text = this.remhps2 + string.Empty;
+	this.remhp3.text = this.remhps3 + string.Empty;
+	this.remhp4.text = this.remhps4 + string.Empty;
+	this.s1tries.text = this.data.prof.s1tries + string.Empty;
+	this.s2tries.text = this.data.prof.s2tries + string.Empty;
+	this.s3tries.text = this.data.prof.s3tries + string.Empty;
+	this.s4tries.text = this.data.prof.s4tries + string.Empty;
+	this.addpts1.text = (int)Mathf.Round(this.pluspts1) + string.Empty;
+	this.addpts2.text = (int)Mathf.Round(this.pluspts2) + string.Empty;
+	this.addpts3.text = (int)Mathf.Round(this.pluspts3) + string.Empty;
+	this.addpts4.text = (int)Mathf.Round(this.pluspts4) + string.Empty;
+}
