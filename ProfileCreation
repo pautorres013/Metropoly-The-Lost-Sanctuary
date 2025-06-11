@@ -1,0 +1,45 @@
+private void save()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "INSERT INTO Player(Plyr_Name) VALUES ('" + this.user + "')";
+	this.dba.InsertQuery();
+	this.dba.sqlQuery = "INSERT INTO Plyr_Charinfo(Char_Class) VALUES ('" + this.character + "')";
+	this.dba.InsertQuery();
+	this.dba.sqlQuery = "INSERT INTO Plyr_Items(Book, Key, Scroll, Pzlepcs) VALUES (0, 0, 0, 0)";
+	this.dba.InsertQuery();
+	this.dba.sqlQuery = "INSERT INTO Plyr_Status(PlyrSt_Score, PlyrSt_QstN, PlyrSt_Loc, PlyrSt_SubQstN) VALUES (0, 1, 'MegaraSchool', 0)";
+	this.dba.InsertQuery();
+	this.dba.sqlQuery = "INSERT INTO Plyr_Tome(Similarity_Collected, Polygons_Collected, Circles_Collected, PlaneCord_Collected, Tri_Collected, Quad_Collected) VALUES (('0,0,0,0,0'), ('0,0,0,0,0'), ('0,0,0,0'), ('0,0,0'), ('0,0,0,0,0,0,0,0'),('0,0,0,0'))";
+	this.dba.InsertQuery();
+	this.dba.sqlQuery = "INSERT INTO Plyr_StageProgress(Stage1CorrAns, Stage1WronAns, Stage2CorrAns, Stage2WronAns, Stage3CorrAns, Stage3WronAns, Stage4CorrAns, Stage4WronAns, Stage4StageScore, Remhp1, Remhp2, Remhp3, Remhp4, s1tries, s2tries, s3tries, s4tries) VALUES (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+	this.dba.InsertQuery();
+	this.dba.closecon();
+}
+public void SaveBtn()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "SELECT * FROM Profile where Plyr_Name = '" + this.user + "' COLLATE NOCASE";
+	this.dba.SelectQuery();
+	if (this.user.Length > 4 && this.character != string.Empty && this.dba.reader.IsDBNull(0))
+	{
+		this.transferData();
+		this.save();
+		this.okaybtn.SetActive(true);
+	}
+	else if (this.character == string.Empty)
+	{
+		this.prompttxt.text = "Select a character.";
+		this.prompt.SetActive(true);
+	}
+	else if (this.user.Length < 5)
+	{
+		this.prompttxt.text = "Username must be 5 characters or above.";
+		this.prompt.SetActive(true);
+	}
+	else if (!this.dba.reader.IsDBNull(0))
+	{
+		this.prompttxt.text = "Existing username.";
+		this.prompt.SetActive(true);
+	}
+	this.dba.closecon();
+}
