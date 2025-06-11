@@ -1,3 +1,14 @@
+public void GetUserID()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "SELECT Plyr_ID FROM Player where Plyr_Name = '" + this.userN + "' COLLATE NOCASE";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0) && this.dba.reader.Read())
+	{
+		this.UserID = this.dba.reader.GetInt32(0);
+	}
+	this.dba.closecon();
+}
 private void save()
 {
 	this.dba.opencon("plyr_mpdb");
