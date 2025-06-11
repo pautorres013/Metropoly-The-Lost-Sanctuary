@@ -1,0 +1,107 @@
+public void CancelSave()
+{
+	this.Save_GUI.SetActive(false);
+}
+public void UpdateData()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = string.Concat(new object[]
+	{
+		"UPDATE Plyr_Items SET Book = ",
+		this.prof.book,
+		" , Key = ",
+		this.prof.key,
+		" ,Scroll = ",
+		this.prof.scroll,
+		",Pzlepcs = ",
+		this.prof.puzzle,
+		" WHERE PlyrItems_ID = ",
+		this.prof.UserID,
+		" "
+	});
+	this.dba.InsertQuery();
+	this.dba.closecon();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = string.Concat(new object[]
+	{
+		"UPDATE Plyr_Status SET PlyrSt_Score ='",
+		this.prof.score,
+		"', PlyrSt_QstN ='",
+		this.prof.questN,
+		"', PlyrSt_Loc = '",
+		this.location,
+		"', PlyrSt_SubQstN = '",
+		this.prof.subQuestID,
+		"' WHERE PlyrSt_ID ='",
+		this.prof.UserID,
+		"'"
+	});
+	this.dba.InsertQuery();
+	this.dba.closecon();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = string.Concat(new object[]
+	{
+		"UPDATE Plyr_Tome SET Similarity_Collected = '",
+		this.simi,
+		"', Polygons_Collected = '",
+		this.poly,
+		"', Circles_Collected = '",
+		this.circ,
+		"', PlaneCord_Collected = '",
+		this.plc,
+		"', Tri_Collected = '",
+		this.tri,
+		"' , Quad_Collected = '",
+		this.quad,
+		"' WHERE Plyr_ID = '",
+		this.prof.UserID,
+		"'"
+	});
+	this.dba.InsertQuery();
+	this.dba.closecon();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = string.Concat(new object[]
+	{
+		"UPDATE Plyr_StageProgress SET Stage1CorrAns = '",
+		this.prof.s1rightansd,
+		"', Stage1WronAns = '",
+		this.prof.s1wrongansd,
+		"', Stage2CorrAns = '",
+		this.prof.s2rightansd,
+		"', Stage2WronAns = '",
+		this.prof.s2wrongansd,
+		"', Stage3CorrAns = '",
+		this.prof.s3rightansd,
+		"', Stage3WronAns = '",
+		this.prof.s3wrongansd,
+		"', Stage4CorrAns = '",
+		this.prof.s4rightansd,
+		"', Stage4WronAns = '",
+		this.prof.s4wrongansd,
+		"', Stage4StageScore = '",
+		this.prof.stage4score,
+		"', Remhp1 = '",
+		this.prof.remaininghp1,
+		"', Remhp2 = '",
+		this.prof.remaininghp2,
+		"', Remhp3 = '",
+		this.prof.remaininghp3,
+		"', Remhp4 = '",
+		this.prof.remaininghp4,
+		"', s1tries = '",
+		this.prof.s1tries,
+		"', s2tries = '",
+		this.prof.s2tries,
+		"', s3tries = '",
+		this.prof.s3tries,
+		"', s4tries = '",
+		this.prof.s4tries,
+		"' WHERE Plyr_ID = '",
+		this.prof.UserID,
+		"'"
+	});
+	this.dba.InsertQuery();
+	this.dba.closecon();
+	this.CancelSave();
+	this.prompt.SetActive(true);
+}
