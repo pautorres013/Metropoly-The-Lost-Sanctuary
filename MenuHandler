@@ -1,0 +1,98 @@
+public void LoadGame()
+{
+	if (this.userprof.questN >= 2)
+	{
+		this.dba.opencon("plyr_mpdb");
+		this.dba.sqlQuery = "SELECT Book, Key, Scroll, Pzlepcs FROM PlayerItems where Plyr_Name = '" + this.userprof.userN + "'";
+		this.dba.SelectQuery();
+		if (!this.dba.reader.IsDBNull(0))
+		{
+			if (this.dba.reader.Read())
+			{
+				this.userprof.book = this.dba.reader.GetInt32(0);
+				this.userprof.key = this.dba.reader.GetInt32(1);
+				this.userprof.scroll = this.dba.reader.GetInt32(2);
+				this.userprof.puzzle = this.dba.reader.GetInt32(3);
+				this.dba.closecon();
+			}
+			this.GetPlayerData();
+		}
+		this.userprof.nxtLevel = this.userprof.Loc;
+		SceneManager.LoadScene("LoadScreen");
+	}
+	else
+	{
+		this.prompttxt.text = "New Account\nClick New Game";
+		this.Prompt.SetActive(true);
+	}
+}
+private void LoadOverview()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "SELECT Stage1CorrAns, Stage1WronAns, Stage2CorrAns, Stage2WronAns, Stage3CorrAns, Stage3WronAns, Stage4CorrAns, Stage4WronAns, Stage4StageScore, Remhp1,Remhp2,Remhp3,Remhp4, s1tries, s2tries, s3tries, s4tries FROM Overview where Plyr_Name = '" + this.userprof.userN + "'";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0) && this.dba.reader.Read())
+	{
+		this.userprof.s1rightansd = this.dba.reader.GetInt32(0);
+		this.userprof.s1wrongansd = this.dba.reader.GetInt32(1);
+		this.userprof.s2rightansd = this.dba.reader.GetInt32(2);
+		this.userprof.s2wrongansd = this.dba.reader.GetInt32(3);
+		this.userprof.s3rightansd = this.dba.reader.GetInt32(4);
+		this.userprof.s3wrongansd = this.dba.reader.GetInt32(5);
+		this.userprof.s4rightansd = this.dba.reader.GetInt32(6);
+		this.userprof.s4wrongansd = this.dba.reader.GetInt32(7);
+		this.userprof.stage4score = this.dba.reader.GetInt32(8);
+		this.userprof.remaininghp1 = this.dba.reader.GetInt32(9);
+		this.userprof.remaininghp2 = this.dba.reader.GetInt32(10);
+		this.userprof.remaininghp3 = this.dba.reader.GetInt32(11);
+		this.userprof.remaininghp4 = this.dba.reader.GetInt32(12);
+		this.userprof.s1tries = this.dba.reader.GetInt32(13);
+		this.userprof.s2tries = this.dba.reader.GetInt32(14);
+		this.userprof.s3tries = this.dba.reader.GetInt32(15);
+		this.userprof.s4tries = this.dba.reader.GetInt32(16);
+		this.dba.closecon();
+	}
+}
+public void NewGame()
+{
+	this.aud.btnAud();
+	this.userprof.GetUserID();
+	this.userprof.UpdateData();
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "SELECT Book, Key, Scroll, Pzlepcs FROM PlayerItems where Plyr_Name = '" + this.userprof.userN + "'";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		if (this.dba.reader.Read())
+		{
+			this.userprof.book = this.dba.reader.GetInt32(0);
+			this.userprof.key = this.dba.reader.GetInt32(1);
+			this.userprof.scroll = this.dba.reader.GetInt32(2);
+			this.userprof.puzzle = this.dba.reader.GetInt32(3);
+			this.dba.closecon();
+		}
+		this.GetPlayerData();
+	}
+	this.userprof.nxtLevel = "Tutorial";
+	SceneManager.LoadScene("LoadScreen");
+}
+private void Start()
+{
+	this.split = this.Sys.GetComponent<Splitstring>();
+	this.aud = this.Sys.GetComponent<Sound>();
+	this.dba = this.Sys.GetComponent<DBAccess>();
+	this.userprof = this.Sys.GetComponent<Profile>();
+	this.Log = this.LGUI.GetComponent<Animator>();
+}
+public void Cancel()
+{
+	this.aud.btnAud();
+	Application.Quit();
+}
+public void ChangeUser()
+{
+	this.aud.btnAud();
+	UnityEngine.Object.DestroyObject(this.Sys);
+	UnityEngine.Object.DestroyObject(this.UI);
+	SceneManager.LoadScene("Login");
+}
