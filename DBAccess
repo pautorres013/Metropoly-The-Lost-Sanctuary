@@ -1,0 +1,40 @@
+public void closecon()
+{
+	try
+	{
+		this.reader.Close();
+		this.reader = null;
+		this.dbcmd.Dispose();
+		this.dbcmd = null;
+		this.dbconn.Close();
+		this.dbconn = null;
+	}
+	catch (Exception)
+	{
+	}
+}
+public void InsertQuery()
+{
+	this.dbcmd = this.dbconn.CreateCommand();
+	this.dbcmd.CommandText = this.sqlQuery;
+	this.dbcmd.ExecuteNonQuery();
+}
+public void opencon(string dbName)
+{
+	this.conn = string.Concat(new string[]
+	{
+		"URI=file:",
+		Application.dataPath,
+		"/",
+		dbName,
+		".s3db"
+	});
+	this.dbconn = new SqliteConnection(this.conn);
+	this.dbconn.Open();
+}
+public void SelectQuery()
+{
+	this.dbcmd = this.dbconn.CreateCommand();
+	this.dbcmd.CommandText = this.sqlQuery;
+	this.reader = this.dbcmd.ExecuteReader();
+}
