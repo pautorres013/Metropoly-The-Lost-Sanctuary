@@ -1,0 +1,72 @@
+private void Arrange_Player(GameObject player)
+{
+	string prevStage = this.prof.prevStage;
+	switch (prevStage)
+	{
+	case "TrainingGrounds":
+		player.transform.position = this.camefromTrainingGrounds.transform.position;
+		return;
+	case "InsideMegara":
+		player.transform.position = this.camefromOffice.transform.position;
+		return;
+	case "Stage_1":
+		player.transform.position = this.cameS1.transform.position;
+		return;
+	case "Stage_2":
+		player.transform.position = this.cameS2.transform.position;
+		return;
+	case "Stage_3":
+		player.transform.position = this.cameS3.transform.position;
+		return;
+	}
+	player.transform.position = this.spawnpt.transform.position;
+}
+private void Awake()
+{
+	this.prof = GameObject.Find("System").GetComponent<Profile>();
+	string char_Class = this.prof.Char_Class;
+	switch (char_Class)
+	{
+	case "Euphoria":
+		UnityEngine.Object.DestroyObject(this.male_char);
+		this.verifyGender("female");
+		break;
+	case "Eucliwood":
+		UnityEngine.Object.DestroyObject(this.male_char);
+		this.verifyGender("female");
+		break;
+	case "Klein":
+		UnityEngine.Object.DestroyObject(this.female_char);
+		this.verifyGender("male");
+		break;
+	}
+	this.verifyLocation();
+}
+private void verifyGender(string gender)
+{
+	if (gender == "female")
+	{
+		this.player = this.female_char;
+	}
+	else if (gender == "male")
+	{
+		this.player = this.male_char;
+	}
+	this.Arrange_Player(this.player);
+}
+private void verifyLocation()
+{
+	string name = SceneManager.GetActiveScene().name;
+	switch (name)
+	{
+	case "TrainingGrounds":
+		this.prof.prevStage = "TrainingGrounds";
+		break;
+	case "InsideMegara":
+		this.prof.prevStage = "InsideMegara";
+		break;
+	case "MegaraSchool":
+		this.prof.hp = 100f;
+		break;
+	}
+}  
