@@ -1,0 +1,151 @@
+private void InventData()
+{
+	this.Book.text = string.Empty + this.prof.book;
+	this.Key.text = string.Empty + this.prof.key;
+	this.Puzzle.text = string.Empty + this.prof.puzzle;
+	this.Scroll.text = string.Empty + this.prof.scroll;
+}
+public void QuestData()
+{
+	this.Quest_tle = this.prof.q_title;
+	this.Quest_desc = this.prof.q_desc;
+	this.Quest_ReqDesc = this.prof.q_reqdesc;
+	this.Quest_req = this.prof.q_req;
+	this.Quest_rwrd = this.prof.q_rwrd;
+	this.Quest_RwdDesc = this.prof.q_rwddesc;
+}
+public void RetrieveData()
+{
+	this.QuestData();
+	this.InventData();
+	this.SubquestDisplay();
+	if (this.currscene.name == "Stage_1" || this.currscene.name == "Stage_2" || this.currscene.name == "Stage_3" || this.currscene.name == "Stage_4")
+	{
+		this.gainedscore.text = this.prof.gainscore.ToString();
+		this.gainscore.SetActive(true);
+	}
+	else
+	{
+		this.gainscore.SetActive(false);
+	}
+	this.Quest_name.text = this.Quest_tle;
+	this.Q_desc.text = this.Quest_desc;
+	this.Q_Req.text = string.Concat(new object[]
+	{
+		"Requirement: ",
+		this.Quest_req,
+		" ",
+		this.Quest_ReqDesc
+	});
+	this.Q_Rwd.text = string.Concat(new object[]
+	{
+		"Reward: ",
+		this.Quest_rwrd,
+		" ",
+		this.Quest_RwdDesc
+	});
+}
+public void StartCollecting()
+{
+	if (this.System != null)
+	{
+		this.prof = this.System.GetComponent<Profile>();
+	}
+	this.HPSys = base.GetComponent<getSystem>();
+	this.prof.prev_score = this.prof.score;
+	this.currscene = SceneManager.GetActiveScene();
+	this.ActivateHP();
+	this.prof.quest();
+}
+public void SubquestDisplay()
+{
+	if (this.prof.questN >= 1 && this.prof.subQuestID >= 0 && (SceneManager.GetActiveScene().name == "MegaraSchool" || SceneManager.GetActiveScene().name == "TrainingGrounds" || SceneManager.GetActiveScene().name == "InsideMegara"))
+	{
+		this.SubQuest.SetActive(true);
+		switch (this.prof.subQuestID)
+		{
+		case 0:
+			if (this.prof.questN != 9)
+			{
+				if (this.prof.questN >= 1 && this.prof.key == 0)
+				{
+					this.SQtitle = "Intramurals";
+					if (this.prof.questN == 1 && this.prof.subQuestID == 0)
+					{
+						this.SQtDesc = "Talk to Mr. Lagrange";
+					}
+				}
+				else
+				{
+					this.SQtitle = "Similarity";
+					if (this.prof.key == 1 && this.prof.subQuestID == 0)
+					{
+						this.SQtDesc = "Talk to Mr. Sim";
+					}
+				}
+			}
+			else
+			{
+				this.SubQuest.SetActive(false);
+			}
+			break;
+		case 1:
+			this.SQtitle = "Similarity";
+			if (this.prof.key == 2 && this.prof.subQuestID == 1)
+			{
+				this.SQtDesc = "Talk to Mr. Poly";
+			}
+			else
+			{
+				this.SQtDesc = "Finish the Island of Similarity to get the key.";
+			}
+			break;
+		case 2:
+			this.SQtitle = "Polygon";
+			if (this.prof.key == 3 && this.prof.subQuestID == 2)
+			{
+				this.SQtDesc = "Talk to Mr. Circ";
+			}
+			else
+			{
+				this.SQtDesc = "Finish the Village of Poly to get the key.";
+			}
+			break;
+		case 3:
+			this.SQtitle = "Circle";
+			if (this.prof.key == 4 && this.prof.subQuestID == 3)
+			{
+				this.SQtDesc = "Talk to Mr. Lagrange";
+			}
+			else
+			{
+				this.SQtDesc = "Finish the Labyrinth of Circle to get the key.";
+			}
+			break;
+		case 4:
+			this.SQtitle = "The NPC Of Warps";
+			if (this.prof.questN == 6 && this.prof.subQuestID == 4 && this.prof.scroll == 1 && this.prof.book == 1)
+			{
+				this.SQtDesc = "Talk to Plank to get 1 puzzle piece and Eucliwood to complete the tome of euclid.";
+			}
+			if (this.prof.questN == 6 && this.prof.subQuestID == 4 && this.prof.scroll == 0 && this.prof.book == 0 && this.prof.puzzle == 1)
+			{
+				this.SQtDesc = "Talk to Ainz to open the warp gate to stage 4.";
+			}
+			break;
+		case 5:
+			this.SQtitle = "Last Stage";
+			if (this.prof.questN == 8 && this.prof.subQuestID == 5)
+			{
+				this.SQtDesc = "Use the Warp near Ainz and Finish the final stage.";
+			}
+			break;
+		}
+		this.SQttl.text = this.SQtitle;
+		this.SQDesc.text = this.SQtDesc;
+	}
+	else
+	{
+		this.SubQuest.SetActive(false);
+	}
+}
