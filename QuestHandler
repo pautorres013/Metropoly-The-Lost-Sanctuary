@@ -1,0 +1,29 @@
+public void quest()
+{
+	this.dba.opencon("quest_mpdb");
+	this.dba.sqlQuery = "Select * from QuestBank where Q_ID = '" + this.questN + "'";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0) && this.questN < 9)
+	{
+		if (this.dba.reader.Read())
+		{
+			this.q_title = this.dba.reader.GetString(1);
+			this.q_desc = this.dba.reader.GetString(2);
+			this.q_reqdesc = this.dba.reader.GetString(3);
+			this.q_req = this.dba.reader.GetInt32(4);
+			this.q_rwrd = this.dba.reader.GetInt32(5);
+			this.q_rwddesc = this.dba.reader.GetString(6);
+			this.dba.closecon();
+		}
+	}
+	else
+	{
+		this.q_title = "Game Clear!";
+		this.q_desc = "Game Clear!";
+		this.q_reqdesc = "Game Clear!";
+		this.q_req = 0;
+		this.q_rwrd = 0;
+		this.q_rwddesc = "Game Clear!";
+	}
+}
+
