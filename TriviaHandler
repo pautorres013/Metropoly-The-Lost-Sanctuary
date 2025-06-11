@@ -39,3 +39,30 @@ public void LoadTrivia()
 		}
 	}
 }
+private void LoadTrivia()
+{
+	this.random_num = UnityEngine.Random.Range(1, this.Load.n_trivia);
+	this.Database.opencon("trivia_mpdb");
+	this.Database.sqlQuery = "SELECT T_Desc FROM Trvia where T_ID = '" + this.random_num + "'";
+	this.Database.SelectQuery();
+	if (!this.Database.reader.IsDBNull(0) && this.Database.reader.Read())
+	{
+		this.Trivia[this.n] = this.Database.reader.GetString(0);
+		this.Database.closecon();
+	}
+}
+private void getTriviaData()
+{
+	this.n = 0;
+	while (this.n < this.text.Length)
+	{
+		this.LoadTrivia();
+		this.t = this.Trivia[this.n].Split(new string[]
+		{
+			"\n",
+			"\n"
+		}, 3, StringSplitOptions.None);
+		this.text[this.n].text = this.t[0];
+		this.n++;
+	}
+}
