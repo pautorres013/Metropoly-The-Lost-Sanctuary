@@ -1,0 +1,86 @@
+public void SelectAllTome()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "SELECT * FROM TriviaTome where Plyr_Name = '" + this.prof.userN + "' COLLATE NOCASE";
+	this.dba.SelectQuery();
+	if (!this.dba.reader.IsDBNull(0))
+	{
+		while (this.dba.reader.Read())
+		{
+			this.splitsimi = this.dba.reader.GetString(1);
+			this.prof.Similarity = this.splitsimi.Split(new char[]
+			{
+				","[0]
+			});
+			this.simi = new int[this.prof.Similarity.Length];
+			for (int i = 0; i < this.prof.Similarity.Length; i++)
+			{
+				this.simi[i] = int.Parse(this.prof.Similarity[i]);
+			}
+			this.splitpol = this.dba.reader.GetString(2);
+			this.prof.Polygon = this.splitpol.Split(new char[]
+			{
+				","[0]
+			});
+			this.pol = new int[this.prof.Polygon.Length];
+			for (int j = 0; j < this.prof.Polygon.Length; j++)
+			{
+				this.pol[j] = int.Parse(this.prof.Polygon[j]);
+			}
+			this.splitcir = this.dba.reader.GetString(3);
+			this.prof.Circle = this.splitcir.Split(new char[]
+			{
+				","[0]
+			});
+			this.cir = new int[this.prof.Circle.Length];
+			for (int k = 0; k < this.prof.Circle.Length; k++)
+			{
+				this.cir[k] = int.Parse(this.prof.Circle[k]);
+			}
+			this.splitpc = this.dba.reader.GetString(4);
+			this.prof.PlaneCord = this.splitpc.Split(new char[]
+			{
+				","[0]
+			});
+			this.pc = new int[this.prof.PlaneCord.Length];
+			for (int l = 0; l < this.prof.PlaneCord.Length; l++)
+			{
+				this.pc[l] = int.Parse(this.prof.PlaneCord[l]);
+			}
+			this.splittri = this.dba.reader.GetString(5);
+			this.prof.Tri = this.splittri.Split(new char[]
+			{
+				","[0]
+			});
+			this.tri = new int[this.prof.Tri.Length];
+			for (int m = 0; m < this.prof.Tri.Length; m++)
+			{
+				this.tri[m] = int.Parse(this.prof.Tri[m]);
+			}
+			this.splitquad = this.dba.reader.GetString(6);
+			this.prof.Quad = this.splitquad.Split(new char[]
+			{
+				","[0]
+			});
+			this.quad = new int[this.prof.Quad.Length];
+			for (int n = 0; n < this.prof.Quad.Length; n++)
+			{
+				this.quad[n] = int.Parse(this.prof.Quad[n]);
+			}
+		}
+	}
+	this.dba.closecon();
+}
+
+private void Start()
+{
+	this.dba = base.GetComponent<DBAccess>();
+	this.prof = base.GetComponent<Profile>();
+}
+public void UpdateAllTome()
+{
+	this.dba.opencon("plyr_mpdb");
+	this.dba.sqlQuery = "INSERT INTO Plyr_Tome(Similarity_Collected,Polygons_Collected,Circles_Collected,PlaneCord_Collected,Tri_Collected,Quad_Collected) VALUES (('0,0,0,0,0'),('0,0,0,0,0'),('0,0,0,0'),('0,0,0'),('0,0,0,0,0,0,0,0'),('0,0,0,0'))";
+	this.dba.InsertQuery();
+	this.dba.closecon();
+}
